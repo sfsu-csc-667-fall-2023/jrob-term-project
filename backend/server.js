@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === "development") {
   liveReloadServer.watch(path.join(__dirname, "static"));
   liveReloadServer.server.once("connection", () => {
     setTimeout(() => {
-      liveReloadServer.refresh("/");
+      liveReloadServer.refresh(`/`);
     }, 100);
   });
 
