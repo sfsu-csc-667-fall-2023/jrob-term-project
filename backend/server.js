@@ -19,5 +19,4 @@ app.use((_request, _response, next) => {
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
-  console.log(`__dirname is ${__dirname}`)
 });
