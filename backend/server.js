@@ -17,6 +17,8 @@ app.use(express.static(path.join(__dirname, "static")));
 const PORT = process.env.PORT || 3000;
 
 if (process.env.NODE_ENV === "development") {
+  require("dotenv").config();
+
   const livereload = require("livereload");
   const connectLiveReload = require("connect-livereload");
 
@@ -31,8 +33,15 @@ if (process.env.NODE_ENV === "development") {
   app.use(connectLiveReload());
 }
 
-const rootRoutes = require("./routes/root");
-app.use("/", rootRoutes);
+const landingRoutes = require("./routes/landing");
+const authRoutes = require("./routes/authentication");
+const globalLobbyRoutes = require("./routes/global_lobby");
+const gameRoutes = require("./routes/game");
+
+app.use("/", landingRoutes);
+app.use("/auth", authRoutes);
+app.use("/lobby", globalLobbyRoutes);
+app.use("/games", gameRoutes);
 
 app.use((_request, _response, next) => {
   next(createError(404));

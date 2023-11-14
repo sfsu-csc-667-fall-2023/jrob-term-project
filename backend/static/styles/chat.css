@@ -1,0 +1,22 @@
+div.message {
+  clear: both;
+}
+
+div.me p {
+  font-style: italic;
+  color: #777;
+}
+
+div.message img {
+  border-radius: 25px;
+}
+
+div.me img {
+  float: right;
+  margin-left: 15px;
+}
+
+div.not-me img {
+  float: left;
+  margin-right: 15px;
+}

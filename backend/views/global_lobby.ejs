@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lobby</title>
+    <link rel="stylesheet" href="/styles/pico.css" />
+    <link rel="stylesheet" href="/styles/chat.css" />
+  </head>
+  <body>
+    <nav class="container">
+      <ul>
+        <li>Jrob's Game</li>
+      </ul>
+      <ul>
+        <li><a href="/">Landing</a></li>
+        <li><a href="/auth/sign_up">Sign up</a></li>
+        <li><a href="/lobby">Lobby</a></li>
+        <li><a href="/games/42">Game 42</a></li>
+      </ul>
+    </nav>
+    <main class="container">
+      <h1>Lobby</h1>
+
+      <div class="grid">
+        <div><h2>Available Games</h2></div>
+        <div>
+          <h2>Chat</h2>
+          <article>
+            <div class="message me">
+              <img src="https://placehold.co/50x50?text=Me" alt="Avatar" />
+              <p>This is a message</p>
+            </div>
+            <div class="message not-me">
+              <img src="https://placehold.co/50x50?text=NM" alt="Avatar" />
+              <p>This is a not me message</p>
+            </div>
+            <div class="message not-me">
+              <img src="https://placehold.co/50x50?text=NM" alt="Avatar" />
+              <p>This is a not me message</p>
+            </div>
+          </article>
+          <input
+            type="text"
+            name="message"
+            id="message"
+            placeholder="Message"
+          />
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
