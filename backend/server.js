@@ -6,7 +6,11 @@ const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const { viewSessionData } = require("./middleware/view-session");
+const {
+  viewSessionData,
+  sessionLocals,
+  isAuthenticated,
+} = require("./middleware/");
 
 const app = express();
 
@@ -45,25 +49,25 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(
   session({
+    store: new (require("connect-pg-simple")(session))({
+      createTableIfMissing: true,
+    }),
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
     cookie: { secure: process.env.NODE_ENV !== "development" },
   }),
 );
 if (process.env.NODE_ENV === "development") {
   app.use(viewSessionData);
 }
+app.use(sessionLocals);
 
-const landingRoutes = require("./routes/landing");
-const authRoutes = require("./routes/authentication");
-const globalLobbyRoutes = require("./routes/global_lobby");
-const gameRoutes = require("./routes/game");
+const Routes = require("./routes");
 
-app.use("/", landingRoutes);
-app.use("/auth", authRoutes);
-app.use("/lobby", globalLobbyRoutes);
-app.use("/games", gameRoutes);
+app.use("/", Routes.landing);
+app.use("/auth", Routes.authentication);
+app.use("/lobby", isAuthenticated, Routes.lobby);
+app.use("/games", isAuthenticated, Routes.game);
 
 app.use((_request, _response, next) => {
   next(createError(404));

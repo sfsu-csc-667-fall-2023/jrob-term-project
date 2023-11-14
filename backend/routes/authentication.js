@@ -60,4 +60,10 @@ router.post("/sign_in", async (request, response) => {
   }
 });
 
+router.get("/logout", (request, response) => {
+  request.session.destroy();
+
+  response.redirect("/");
+});
+
 module.exports = router;
