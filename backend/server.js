@@ -5,8 +5,11 @@ const createError = require("http-errors");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const session = require("express-session");
+const { viewSessionData } = require("./middleware/view-session");
 
 const app = express();
+
 app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(
@@ -38,6 +41,18 @@ if (process.env.NODE_ENV === "development") {
   });
 
   app.use(connectLiveReload());
+}
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: process.env.NODE_ENV !== "development" },
+  }),
+);
+if (process.env.NODE_ENV === "development") {
+  app.use(viewSessionData);
 }
 
 const landingRoutes = require("./routes/landing");
