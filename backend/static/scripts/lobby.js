@@ -815,9 +815,9 @@
         }
       },
     },
-    $ =
+    z =
       /^(?:(?![^:@\/?#]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@\/?#]*)(?::([^:@\/?#]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,
-    z = [
+    $ = [
       "source",
       "protocol",
       "authority",
@@ -844,10 +844,10 @@
         t.substring(0, s) +
         t.substring(s, n).replace(/:/g, ";") +
         t.substring(n, t.length));
-    let i = $.exec(t || ""),
+    let i = z.exec(t || ""),
       r = {},
       o = 14;
-    for (; o--; ) r[z[o]] = i[o] || "";
+    for (; o--; ) r[$[o]] = i[o] || "";
     return (
       -1 != s &&
         -1 != n &&
@@ -2144,30 +2144,13 @@
     );
   }
   Object.assign(_t, { Manager: wt, Socket: bt, io: _t, connect: _t });
-  const Et = document.querySelector("#chat-window"),
-    At = _t(),
-    Ot = document.querySelector("#room-id").value;
-  At.on(
-    `chat:message:${Ot}`,
-    ({ from: t, timestamp: e, message: s, hash: n }) => {
-      const i = document.querySelector("#chat-message").content.cloneNode(!0),
-        r = i.querySelector("img");
-      (r.src = `https://gravatar.com/avatar/${n}?s=50`),
-        (r.alt = `Avatar of ${t}`),
-        (i.querySelector("p").innerText = s),
-        Et.appendChild(i);
-    },
-  ),
-    document.querySelector("#message").addEventListener("keydown", (t) => {
-      if (13 === t.keyCode) {
-        const e = t.target.value;
-        t.target.dataset.url,
-          fetch(`${document.location.pathname}/chat`, {
-            method: "post",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: e }),
-          }),
-          (t.target.value = "");
-      }
-    });
+  const Et = document.querySelector("#join-game-entry"),
+    At = document.querySelector("#game-list ul");
+  _t().on("game:created", ({ id: t }) => {
+    const e = Et.content.cloneNode(!0),
+      s = e.querySelector("a");
+    (s.href = `/games/${t}/join`),
+      (s.innerText = `Join ${t}`),
+      At.appendChild(e);
+  });
 })();

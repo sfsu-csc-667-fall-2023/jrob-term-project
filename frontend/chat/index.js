@@ -6,8 +6,6 @@ const chatSocket = io();
 
 const roomId = document.querySelector("#room-id").value;
 
-console.log({ roomId });
-
 chatSocket.on(
   `chat:message:${roomId}`,
   ({ from, timestamp, message, hash }) => {
