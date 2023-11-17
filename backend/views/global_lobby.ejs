@@ -6,6 +6,7 @@
     <title>Lobby</title>
     <link rel="stylesheet" href="/styles/pico.css" />
     <link rel="stylesheet" href="/styles/chat.css" />
+    <script src="/scripts/chat.js" defer></script>
   </head>
   <body>
     <nav class="container">
@@ -23,32 +24,7 @@
       <h1>Lobby</h1>
       <h2><%= user.id %> <%= user.email %></h2>
 
-      <div class="grid">
-        <div><h2>Available Games</h2></div>
-        <div>
-          <h2>Chat</h2>
-          <article>
-            <div class="message me">
-              <img src="https://placehold.co/50x50?text=Me" alt="Avatar" />
-              <p>This is a message</p>
-            </div>
-            <div class="message not-me">
-              <img src="https://placehold.co/50x50?text=NM" alt="Avatar" />
-              <p>This is a not me message</p>
-            </div>
-            <div class="message not-me">
-              <img src="https://placehold.co/50x50?text=NM" alt="Avatar" />
-              <p>This is a not me message</p>
-            </div>
-          </article>
-          <input
-            type="text"
-            name="message"
-            id="message"
-            placeholder="Message"
-          />
-        </div>
-      </div>
+      <%- include('partials/chat', { roomId: 0 }) %>
     </main>
   </body>
 </html>

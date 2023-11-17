@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Game <%= id %></title>
     <link rel="stylesheet" href="/styles/pico.css" />
+    <script src="/scripts/chat.js" defer></script>
+    <script src="/scripts/games.js" defer></script>
   </head>
   <body>
     <nav class="container">
@@ -20,6 +22,8 @@
     </nav>
     <main class="container">
       <h1>Game <%= id %></h1>
+
+      <%- include('partials/chat', { roomId: id }) %>
     </main>
   </body>
 </html>

@@ -9,14 +9,11 @@ div.me p {
 
 div.message img {
   border-radius: 25px;
+  float: left;
+  margin-right: 15px;
 }
 
 div.me img {
   float: right;
   margin-left: 15px;
-}
-
-div.not-me img {
-  float: left;
-  margin-right: 15px;
 }
