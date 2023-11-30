@@ -2146,7 +2146,7 @@
   Object.assign(_t, { Manager: wt, Socket: bt, io: _t, connect: _t });
   const Et = document.querySelector("#join-game-entry"),
     At = document.querySelector("#game-list ul");
-  _t().on("game:created", ({ id: t }) => {
+  _t().on("games:created", ({ id: t }) => {
     const e = Et.content.cloneNode(!0),
       s = e.querySelector("a");
     (s.href = `/games/${t}/join`),
