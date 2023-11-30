@@ -17,16 +17,27 @@
         <li><a href="/">Landing</a></li>
         <li><a href="/auth/logout">Logout</a></li>
         <li><a href="/lobby">Lobby</a></li>
-        <li><a href="/games/42">Game 42</a></li>
       </ul>
     </nav>
     <main class="container">
       <h1>Game <%= id %></h1>
+      <section id="game-board">
+        <form action="/games/<%= id %>/test" method="post" id="test-form">
+          <button type="submit">Test</button>
+        </form>
+      </section>
+
       <input
         type="hidden"
         name="game-socket-id"
         id="game-socket-id"
         value="<%= gameSocketId %>"
+      />
+      <input
+        type="hidden"
+        name="user-socket-id"
+        id="user-socket-id"
+        value="<%= userSocketId %>"
       />
 
       <%- include('partials/chat', { roomId: id }) %>
