@@ -122,6 +122,7 @@ const initialize = async (gameId) => {
 };
 
 const { availableGamesForUser } = require("./games/available-games");
+const { usersInGame } = require("./games/users-in-game");
 
 module.exports = {
   create,
@@ -131,4 +132,5 @@ module.exports = {
   userCount,
   initialize,
   availableGamesForUser,
+  usersInGame,
 };

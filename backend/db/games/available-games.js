@@ -1,5 +1,5 @@
 const database = require("../connection");
-const { connection: db, pgp } = database;
+const { connection: db } = database;
 
 const AVAILABLE_GAMES = `
   SELECT * FROM games, game_users
