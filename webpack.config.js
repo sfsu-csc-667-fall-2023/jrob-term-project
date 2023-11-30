@@ -1,5 +1,7 @@
 const path = require("path");
 
+console.log(__dirname);
+
 module.exports = {
   entry: {
     lobby: "./frontend/lobby/index.js",

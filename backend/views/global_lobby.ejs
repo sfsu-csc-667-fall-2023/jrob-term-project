@@ -23,16 +23,33 @@
     </nav>
     <main class="container">
       <h1>Lobby</h1>
-      <h2><%= user.id %> <%= user.email %></h2>
 
       <div class="grid">
         <div>
+          <h2>Current Games</h2>
+          <section id="my-game-list" data-user="<%= user.id %>">
+            <ul>
+              <% if(currentGames !== undefined && currentGames.length > 0) { %>
+              <% currentGames.forEach(game => { %>
+              <li>
+                <a href="/games/<%= game.game_id %>"
+                  >Return to <%= game.game_id %></a
+                >
+              </li>
+              <% })} else { %>
+              <p>You are not playing any games yet.</p>
+              <% } %>
+            </ul>
+          </section>
+
           <h2>Available Games</h2>
           <section id="game-list">
             <ul>
               <% availableGames.forEach(game => { %>
               <li>
-                <a href="/games/<%= game.id %>/join">Join <%= game.id %></a>
+                <a href="/games/<%= game.game_id %>/join"
+                  >Join <%= game.game_id %></a
+                >
               </li>
               <% }) %>
             </ul>

@@ -464,7 +464,7 @@
       "undefined" != typeof navigator &&
       "string" == typeof navigator.product &&
       "reactnative" === navigator.product.toLowerCase(),
-    J = {
+    $ = {
       websocket: class extends C {
         constructor(t) {
           super(t), (this.supportsBinary = !t.forceBase64);
@@ -815,9 +815,9 @@
         }
       },
     },
-    z =
+    J =
       /^(?:(?![^:@\/?#]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@\/?#]*)(?::([^:@\/?#]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,
-    $ = [
+    z = [
       "source",
       "protocol",
       "authority",
@@ -844,10 +844,10 @@
         t.substring(0, s) +
         t.substring(s, n).replace(/:/g, ";") +
         t.substring(n, t.length));
-    let i = z.exec(t || ""),
+    let i = J.exec(t || ""),
       r = {},
       o = 14;
-    for (; o--; ) r[$[o]] = i[o] || "";
+    for (; o--; ) r[z[o]] = i[o] || "";
     return (
       -1 != s &&
         -1 != n &&
@@ -983,7 +983,7 @@
         },
         this.opts.transportOptions[t],
       );
-      return new J[t](s);
+      return new $[t](s);
     }
     open() {
       let t;
@@ -2145,12 +2145,21 @@
   }
   Object.assign(_t, { Manager: wt, Socket: bt, io: _t, connect: _t });
   const Et = document.querySelector("#join-game-entry"),
-    At = document.querySelector("#game-list ul");
-  _t().on("games:created", ({ id: t }) => {
-    const e = Et.content.cloneNode(!0),
-      s = e.querySelector("a");
-    (s.href = `/games/${t}/join`),
-      (s.innerText = `Join ${t}`),
-      At.appendChild(e);
+    At = document.querySelector("#game-list ul"),
+    Ot = document.querySelector("#my-game-list"),
+    Tt = Ot.querySelector("ul"),
+    Rt = parseInt(Ot.dataset.user);
+  _t().on("games:created", ({ id: t, createdBy: e }) => {
+    if (null !== document.querySelector(`li[data-game-id="${t}"]`)) return;
+    const s = Et.content.cloneNode(!0),
+      n = s.querySelector("a");
+    (s.querySelector("li").dataset.gameId = t),
+      e === Rt
+        ? ((n.href = `/games/${t}`),
+          (n.innerText = `Return to ${t}`),
+          Tt.appendChild(s))
+        : ((n.href = `/games/${t}/join`),
+          (n.innerText = `Join ${t}`),
+          At.appendChild(s));
   });
 })();
