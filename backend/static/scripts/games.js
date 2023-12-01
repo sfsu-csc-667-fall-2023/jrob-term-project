@@ -330,27 +330,27 @@
           return e.length ? "?" + e : "";
         }
       }
-      const B =
+      const S =
           "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_".split(
             "",
           ),
-        S = 64,
+        B = 64,
         x = {};
-      let N,
-        L = 0,
+      let L,
+        N = 0,
         q = 0;
       function P(t) {
         let e = "";
         do {
-          (e = B[t % S] + e), (t = Math.floor(t / S));
+          (e = S[t % B] + e), (t = Math.floor(t / B));
         } while (t > 0);
         return e;
       }
       function j() {
         const t = P(+new Date());
-        return t !== N ? ((L = 0), (N = t)) : t + "." + P(L++);
+        return t !== L ? ((N = 0), (L = t)) : t + "." + P(N++);
       }
-      for (; q < S; q++) x[B[q]] = q;
+      for (; q < B; q++) x[S[q]] = q;
       let D = !1;
       try {
         D =
@@ -495,7 +495,7 @@
           "undefined" != typeof navigator &&
           "string" == typeof navigator.product &&
           "reactnative" === navigator.product.toLowerCase(),
-        z = {
+        $ = {
           websocket: class extends C {
             constructor(t) {
               super(t), (this.supportsBinary = !t.forceBase64);
@@ -855,9 +855,9 @@
             }
           },
         },
-        J =
+        z =
           /^(?:(?![^:@\/?#]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@\/?#]*)(?::([^:@\/?#]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/,
-        $ = [
+        J = [
           "source",
           "protocol",
           "authority",
@@ -884,10 +884,10 @@
             t.substring(0, s) +
             t.substring(s, n).replace(/:/g, ";") +
             t.substring(n, t.length));
-        let r = J.exec(t || ""),
+        let r = z.exec(t || ""),
           i = {},
           o = 14;
-        for (; o--; ) i[$[o]] = r[o] || "";
+        for (; o--; ) i[J[o]] = r[o] || "";
         return (
           -1 != s &&
             -1 != n &&
@@ -1029,7 +1029,7 @@
             },
             this.opts.transportOptions[t],
           );
-          return new z[t](s);
+          return new $[t](s);
         }
         open() {
           let t;
@@ -2207,35 +2207,65 @@
       }
       Object.assign(_t, { Manager: wt, Socket: bt, io: _t, connect: _t });
       var Et = s(653);
-      let At, Tt;
-      const Ot = document.querySelector("#game-socket-id").value,
-        Rt = document.querySelector("#user-socket-id").value,
-        Ct = document.querySelector("#room-id").value;
-      var Bt;
-      ((Bt = Ot),
-      (At = _t({ query: { id: Bt } })),
-      Object.keys(Et).forEach((t) => {
-        At.on(Et[t], (e) => {
-          console.log({ event: Et[t], data: e });
-        });
-      }),
+      let At;
+      const Tt = document.querySelector("#card"),
+        Ot = document.querySelector(".dealer"),
+        Rt = document.querySelector(".player-one-hand"),
+        Ct = document.querySelector(".player-two-hand"),
+        St = (t, e) => {
+          (t.innerHTML = ""),
+            e.forEach(({ suit: e, value: s }) => {
+              const n = Tt.content.cloneNode(!0).querySelector(".card");
+              n.classList.add(`suit-${e}`),
+                n.classList.add(`value-${s}`),
+                (n.innerText = `${s}`),
+                t.appendChild(n);
+            });
+        };
+      let Bt;
+      const xt = document.querySelector("#game-socket-id").value,
+        Lt = document.querySelector("#user-socket-id").value,
+        Nt = document.querySelector("#room-id").value;
+      var qt;
+      ((qt = xt),
+      (At = _t({ query: { id: qt } })),
+      At.on(
+        Et.STATE_UPDATED,
+        ({ game_id: t, current_player: e, players: s }) => {
+          const n = s.find((t) => -1 === t.user_id).hand,
+            r = s.find((t) => 1 === t.user_id).hand,
+            i = s.find((t) => 2 === t.user_id).hand;
+          console.log({ dealerCards: n, seatOneCards: r, seatTwoCards: i }),
+            St(Ot, n),
+            St(Rt, r),
+            St(Ct, i);
+        },
+      ),
       console.log("Game socket configured"),
       Promise.resolve())
         .then((t) =>
           ((t) => (
-            (Tt = _t({ query: { id: t } })),
+            (Bt = _t({ query: { id: t } })),
             Object.keys(Et).forEach((t) => {
-              Tt.on(Et[t], (e) => {
+              Bt.on(Et[t], (e) => {
                 console.log({ event: Et[t], data: e });
               });
             }),
             console.log("User socket configured"),
             Promise.resolve()
-          ))(Rt),
+          ))(Lt),
         )
         .then((t) => {
           console.log("Fetching"),
-            fetch(`/games/${Ct}/ready`, { method: "post" });
+            fetch(`/games/${Nt}/ready`, { method: "post" });
         });
+      const Pt = document.querySelector("#hit-form"),
+        jt = document.querySelector("#stay-form"),
+        Dt = (t) => {
+          t.preventDefault();
+          const { action: e, method: s } = t.target.attributes;
+          return fetch(e.value, { method: s.value }), !1;
+        };
+      Pt.addEventListener("submit", Dt), jt.addEventListener("submit", Dt);
     })();
 })();

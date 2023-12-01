@@ -11,3 +11,18 @@ gameSocketConfig(gameSocketId)
     console.log("Fetching");
     fetch(`/games/${roomId}/ready`, { method: "post" });
   });
+
+const hitForm = document.querySelector("#hit-form");
+const stayForm = document.querySelector("#stay-form");
+
+const handleUserAction = (event) => {
+  event.preventDefault();
+
+  const { action, method } = event.target.attributes;
+  fetch(action.value, { method: method.value });
+
+  return false;
+};
+
+hitForm.addEventListener("submit", handleUserAction);
+stayForm.addEventListener("submit", handleUserAction);

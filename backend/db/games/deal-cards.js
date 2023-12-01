@@ -2,6 +2,8 @@ const database = require("../connection");
 const { connection: db, pgp } = database;
 
 const dealCards = (users, cards, gameId) => {
+  console.log({ users, cards, gameId });
+
   // Array of { card_id, user_id, game_id }
   const dealtCards = cards.map(({ card_id }, index) => ({
     card_id,

@@ -10,17 +10,17 @@ const handler = async (request, response) => {
   const { id: gameId } = request.params;
   const { id: userId } = request.session.user;
 
-  const { ready_count } = await Games.readyPlayer(userId, gameId);
+  const { initialized } = await Games.isInitialized(gameId);
+  const { ready_count, player_count } = await Games.readyPlayer(userId, gameId);
+  console.log({ ready_count, player_count, initialized });
 
-  if (ready_count === 2) {
-    const gameState = await Games.initialize(parseInt(gameId));
+  const method = ready_count !== 2 || initialized ? "getState" : "initialize";
 
-    io.to(gameState.game_socket_id).emit(
-      GAME_CONSTANTS.STATE_UPDATED,
-      gameState,
-    );
-    // TODO: Emit player hands (split up gameState)
-  }
+  const gameState = await Games[method](parseInt(gameId));
+
+  console.log({ gameState, method });
+
+  io.to(gameState.game_socket_id).emit(GAME_CONSTANTS.STATE_UPDATED, gameState);
 
   response.status(200).send();
 };

@@ -5,6 +5,7 @@ const { getPlayerBySeat } = require("./get-player-by-seat");
 const { setCurrentPlayer } = require("./set-current-player");
 const { drawCards } = require("./draw-cards");
 const { dealCards } = require("./deal-cards");
+const { setInitialized } = require("./set-initialized");
 
 const initialize = async (gameId) => {
   const { game_socket_id } = await getGame(gameId);
@@ -15,26 +16,26 @@ const initialize = async (gameId) => {
   );
 
   const users = await getUsers(gameId);
-  users.push({ user_id: 0 }); // TODO: add game sid here
+  users.push({ user_id: -1 }); // TODO: add game sid here
 
   const cards = await drawCards(gameId, users.length * 2);
   const dealtCards = await dealCards(users, cards, gameId);
-
   console.log({ dealtCards });
+
+  users.forEach((user) => {
+    console.log({ user });
+
+    user.hand = dealtCards.filter((card) => card.user_id === user.user_id);
+    user.current_player = firstPlayer === user.user_id;
+  });
+
+  await setInitialized(gameId);
 
   return {
     game_id: gameId,
     game_socket_id,
     current_player: firstPlayer,
     players: users,
-    hands: dealtCards.reduce((memo, entry) => {
-      if (entry.user_id !== 0) {
-        memo[entry.user_id] = memo[entry.user_id] || [];
-        memo[entry.user_id].push(entry);
-      }
-
-      return memo;
-    }, {}),
   };
 };
 

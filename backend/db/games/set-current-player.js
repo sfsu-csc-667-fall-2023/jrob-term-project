@@ -7,7 +7,7 @@ const SET_CURRENT_PLAYER = `
   RETURNING current_seat
 `;
 
-const setCurrentPlayer = (seatIndex, gameId) =>
-  db.one(SET_CURRENT_PLAYER, [seatIndex, gameId]);
+const setCurrentPlayer = (playerId, gameId) =>
+  db.one(SET_CURRENT_PLAYER, [playerId, gameId]);
 
 module.exports = { setCurrentPlayer };
