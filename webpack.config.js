@@ -23,4 +23,9 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    alias: {
+      "@constants": path.resolve(__dirname, "constants"),
+    },
+  },
 };
